@@ -12,7 +12,7 @@ import (
 
 // createSchoolHandler for the "POST /v1/schools" endpoint
 func (app *application) createSchoolHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(w, "create a new school..")
+	fmt.Fprintln(w, "create a new school..")
 }
 
 // showSchoolHandler for the "GET /v1/schools/:id" endpoint
