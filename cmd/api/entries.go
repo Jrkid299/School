@@ -5,6 +5,9 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"time"
+
+	"appletree.jlamb.net/interal/data"
 )
 
 // createSchoolHandler for the "POST /v1/entries" endpoint
@@ -19,6 +22,27 @@ func (app *application) showEntryHandler(w http.ResponseWriter, r *http.Request)
 		http.NotFound(w, r)
 		return
 	}
-	// Display the school id
-	fmt.Fprintf(w, "show the details for entry %d\n", id)
+
+	// Create a new instance of the school struct containing the ID we extracted
+	// From our Url and some sample data
+	school := data.School{
+		ID:        id,
+		CreatedAt: time.Now(),
+		Name:      "Apple Tree",
+		Level:     "High School",
+		Contact:   "Anna Smith",
+		Phone:     "601-4411",
+		Email:     "",
+		Website:   "",
+		Address:   "14 Apple Street",
+		Mode:      []string{"blended", "online"},
+		Version:   1,
+	}
+
+	err = app.writeJSON(w, http.StatusOK, school, nil)
+	if err != nil {
+		app.logger.Println(err)
+		http.Error(w, "The Server enountered a problem and could not process your request", http.StatusInternalServerError)
+	}
+
 }
