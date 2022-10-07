@@ -8,10 +8,12 @@ import (
 
 func (app *application) healthcheckHandler(w http.ResponseWriter, r *http.Request) {
 	//Create a map to hold our healthcheck data
-	data := map[string]string{
-		"status":       "available",
-		"envioronment": app.config.env,
-		"version":      version,
+	data := envelope{
+		"status": "available",
+		"System_info": map[string]string{
+			"envioronment": app.config.env,
+			"version":      version,
+		},
 	}
 
 	err := app.writeJSON(w, http.StatusOK, data, nil)
